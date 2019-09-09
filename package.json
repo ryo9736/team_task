@@ -10,6 +10,7 @@
     "rails-ujs": "^5.2.0"
   },
   "devDependencies": {
+    "gulp-sass": "^4.0.2",
     "webpack-dev-server": "2.11.2"
   }
 }
