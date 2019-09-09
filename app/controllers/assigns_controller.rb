@@ -30,11 +30,12 @@ class AssignsController < ApplicationController
       'リーダーは削除できません。'
     elsif Assign.where(user_id: assigned_user.id).count == 1
       'このユーザーはこのチームにしか所属していないため、削除できません。'
-    elsif assign.destroy
+    elsif  current_user == assign.team.owner || current_user == assigned_user
+      assign.destroy
       set_next_team(assign, assigned_user)
       'メンバーを削除しました。'
     else
-      'なんらかの原因で、削除できませんでした。'
+      '削除できませんでした。'
     end    
   end  
   
@@ -47,3 +48,98 @@ class AssignsController < ApplicationController
     change_keep_team(assigned_user, another_team) if assigned_user.keep_team_id == assign.team_id
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
