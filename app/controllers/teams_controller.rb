@@ -47,6 +47,14 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def transfer_authority
+    @user_id = Assign.where(id: params[:id]).first.user_id
+    @team = Team.find(Assign.where(id: params[:id]).first.team_id)
+    @team.update(owner_id: @user_id)
+    TransferAuthorityMailer.transfer_authority_mail(@team, @user_id).deliver
+    redirect_to @team, notice: 'チームの権限を移動しました！'
+  end
+
   private
 
   def set_team
