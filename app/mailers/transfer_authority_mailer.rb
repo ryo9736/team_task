@@ -1,5 +1,5 @@
 class TransferAuthorityMailer < ApplicationMailer
-  def transfer_authority_mail(team, user_id)
+  def transfer_authority_mailer(team, user_id)
     @team = team
     @user_id = user_id
 
