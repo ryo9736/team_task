@@ -1,5 +1,6 @@
 class AgendasController < ApplicationController
-  # before_action :set_agenda, only: %i[show edit update destroy]
+  before_action :set_agenda, only: %i[show edit update destroy]
+  before_action :check_agenda_authority, only: %I[edit update destroy]
 
   def index
     @agendas = Agenda.all
@@ -21,6 +22,15 @@ class AgendasController < ApplicationController
     end
   end
 
+  def destroy
+    assign_user = Assign.all.where(team_id: @agenda.team_id).select("user_id")
+    assign_user.each do |user|
+      DeleteAgendaMailer.delete_agenda_mail(@agenda, user).deliver
+    end
+    @agenda.destroy
+    redirect_to dashboard_url, notice: 'アジェンダを削除しました！'
+  end
+
   private
 
   def set_agenda
@@ -29,5 +39,12 @@ class AgendasController < ApplicationController
 
   def agenda_params
     params.fetch(:agenda, {}).permit %i[title description]
+  end
+
+  def check_agenda_authority
+    if @agenda.user_id == current_user.id || Team.find(@agenda.team_id).owner.id == current_user.id
+    else
+      redirect_to dashboard_url, notice: '権限がありません'
+    end
   end
 end

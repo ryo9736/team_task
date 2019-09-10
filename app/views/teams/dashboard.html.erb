@@ -9,19 +9,21 @@
       <div class="card-body p-0">
         <table class="table">
           <tbody>
-            <% @team.articles.each do |article| %>
-              <tr>
-                <td><%= image_tag default_img(nil), size: '40x40' %></td>
-                <td>
-                  <%= link_to article_path(article) do %>
-                    <span><%= article.team.name %>チーム　</span>
-                    <span class="badge bg-primary"><%= article.agenda.title %></span>
-                    <%= article.title %>
-                  <% end %>
-                  <br>
-                  <%= l(article.created_at, format: :long) %>に投稿
-                </td>
-              </tr>
+              <% if @team != nil %>
+              <% @team.articles.each do |article| %>
+                <tr>
+                  <td><%= image_tag default_img(nil), size: '40x40' %></td>
+                  <td>
+                    <%= link_to article_path(article) do %>
+                      <span><%= article.team.name %>チーム</span>
+                      <span class="badge bg-primary"><%= article.agenda.title %></span>
+                      <%= article.title %>
+                    <% end %>
+                    <br>
+                    <%= l(article.created_at, format: :long) %>に投稿
+                  </td>
+                </tr>
+              <% end %>
             <% end %>
           </tbody>
         </table>
